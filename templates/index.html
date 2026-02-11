@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Shraddha S K</title>
+
+    <style>
+
+        body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-image: url("/static/v627-aew-08-technologybackground.jpg");
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+}
+
+/* Navbar */
+.navbar {
+    background: rgba(255, 255, 255, 0.15);   /* transparent white */
+    backdrop-filter: blur(8px);              /* glass blur */
+    padding: 15px 40px;
+    font-size: 24px;
+    font-weight: bold;
+    color: white;                            /* visible on dark bg */
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+}
+
+
+/* Center the form */
+.main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 85vh;
+}
+
+/* White Glass Box */
+.container {
+    background: rgba(255,255,255,0.9);
+    padding: 40px;
+    border-radius: 20px;
+    width: 350px;
+    text-align: center;
+    box-shadow: 0 0 20px rgba(0,0,0,0.3);
+}
+
+h2 {
+    margin-bottom: 20px;
+}
+
+/* Button Styling */
+button {
+    background: linear-gradient(90deg, #00c6ff, #0072ff);
+    border: none;
+    padding: 12px 25px;
+    color: white;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: scale(1.05);
+}
+
+
+    </style>
+</head>
+
+<body>
+
+<div class="navbar">
+    Shraddha S K
+</div>
+
+<div class="main">
+
+    <div class="container">
+
+        <h2>Upload Resume & Job Description</h2>
+
+        <form action="/upload" method="POST" enctype="multipart/form-data">
+
+            <label>Upload Resume</label><br>
+            <input type="file" name="resume" id="resume" accept=".pdf,.docx,.txt" required><br><br>
+
+            <label>Upload Job Description</label><br>
+            <input type="file" name="jobdesc" id="jobdesc" accept=".pdf,.docx,.txt" required><br><br>
+
+            <button type="submit">Submit</button>
+
+        </form>
+
+    </div>
+
+</div>
+
+<script>
+function validateFile(input) {
+
+    let allowed = ["pdf", "docx", "txt"];
+    let file = input.value;
+    let ext = file.split('.').pop().toLowerCase();
+
+    if (!allowed.includes(ext)) {
+        alert("Only PDF, DOCX or TXT files allowed!");
+        input.value = "";
+    }
+}
+
+document.getElementById("resume").addEventListener("change", function() {
+    validateFile(this);
+});
+
+document.getElementById("jobdesc").addEventListener("change", function() {
+    validateFile(this);
+});
+</script>
+
+</body>
+</html>
