@@ -42,8 +42,39 @@ def clean_text(text):
 
 # ---------------- ROUTES ----------------
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def home():
+    if request.method == 'POST':
+
+        resume = request.files['resume']
+        jobdesc = request.files['jobdesc']
+
+        allowed = ['pdf', 'docx', 'txt']
+
+        if resume.filename.split('.')[-1].lower() not in allowed:
+            return "Invalid Resume Format"
+
+        if jobdesc.filename.split('.')[-1].lower() not in allowed:
+            return "Invalid Job Description Format"
+
+        resume_path = os.path.join(UPLOAD_FOLDER, resume.filename)
+        jobdesc_path = os.path.join(UPLOAD_FOLDER, jobdesc.filename)
+
+        resume.save(resume_path)
+        jobdesc.save(jobdesc_path)
+
+        resume_text = extract_text(resume_path)
+        jobdesc_text = extract_text(jobdesc_path)
+
+        clean_resume = clean_text(resume_text)
+        clean_jobdesc = clean_text(jobdesc_text)
+
+        return render_template(
+            "index.html",
+            resume_text=clean_resume,
+            jobdesc_text=clean_jobdesc
+        )
+
     return render_template("index.html")
 
 @app.route('/upload', methods=['POST'])
@@ -82,7 +113,7 @@ def upload():
     print("\n------ CLEAN JOB DESCRIPTION TEXT ------\n")
     print(clean_jobdesc[:500])
 
-    return render_template("success.html")
+    return render_template("success.html", resume=clean_resume[:500], jd=clean_jobdesc[:500])
 
 # ---------------- RUN APP ----------------
 
